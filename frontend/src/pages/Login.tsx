@@ -5,10 +5,13 @@ import { authService } from "../main";
 import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
+import { useAppData } from "../context/AppContext";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const { setUser, setIsAuth } = useAppData();
 
   const responseGoogle = async (authResult: any) => {
     setLoading(true);
@@ -21,6 +24,8 @@ const Login = () => {
       toast.success(result.data.message);
 
       setLoading(false);
+      setUser(result.data.user);
+      setIsAuth(true);
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -56,8 +61,8 @@ const Login = () => {
         </button>
 
         <p className="text-center text-xs text-gray-400">
-          By continuing, you agree with our {" "}
-          <span className="text-[#e23774]">Terms of Service</span> & {" "}
+          By continuing, you agree with our{" "}
+          <span className="text-[#e23774]">Terms of Service</span> &{" "}
           <span className="text-[#e23774]">Privacy Policy</span>
         </p>
       </div>
